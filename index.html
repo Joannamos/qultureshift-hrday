@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>You Empowered Us to Lead Change — Qultureshift HR Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0D0D1A;--bg-card:#141428;--bg-card2:#1A1A30;
+  --purple:#6B2FD9;--purple-light:#8B5CF6;--purple-pale:rgba(107,47,217,0.15);--purple-border:rgba(107,47,217,0.35);
+  --teal:#00E5CC;--teal-dim:rgba(0,229,204,0.15);
+  --white:#FFFFFF;--text-primary:#F0EEFF;--text-secondary:#9CA3AF;--text-muted:#6B7280;
+  --border:rgba(255,255,255,0.08);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;}
+.app{max-width:780px;margin:0 auto;padding:1.5rem 1.5rem 5rem;}
+.screen{display:none;}.screen.active{display:block;}
+.logo-bar{display:flex;align-items:center;justify-content:space-between;padding:1rem 0 1.75rem;}
+.qs-logo{display:flex;align-items:center;gap:10px;}
+.qs-wordmark{font-size:20px;font-weight:700;color:var(--white);letter-spacing:-0.3px;}
+.qs-wordmark span{color:var(--purple-light);font-weight:300;font-style:italic;}
+.hero{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:3rem 2.5rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden;}
+.hero-wave{position:absolute;bottom:0;right:0;width:220px;height:140px;background:var(--purple);border-radius:100% 0 20px 0;opacity:0.35;}
+.hero-circle{position:absolute;top:-40px;right:60px;width:100px;height:100px;border-radius:50%;background:var(--purple);opacity:0.2;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--purple-pale);border:1px solid var(--purple-border);color:var(--purple-light);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:6px 18px;border-radius:20px;margin-bottom:1.5rem;position:relative;z-index:1;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);font-weight:600;color:var(--white);line-height:1.2;margin-bottom:0.75rem;position:relative;z-index:1;}
+.hero h1 em{font-style:italic;color:var(--teal);}
+.hero-sub{font-size:14px;color:var(--text-secondary);font-weight:300;line-height:1.75;max-width:460px;margin:0 auto;position:relative;z-index:1;}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:1px solid var(--purple-border);color:var(--text-primary);padding:12px 24px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all 0.3s;z-index:999;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.error{border-color:rgba(248,113,113,0.4);color:#F87171;}
+.toast.success{border-color:rgba(0,229,204,0.4);color:var(--teal);}
+.q-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+.q-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--purple);border-radius:3px 0 0 3px;}
+.q-label{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem;}
+.q-text{font-family:'Playfair Display',serif;font-size:16px;color:var(--white);margin-bottom:0.9rem;line-height:1.45;}
+.q-hint{font-size:12px;color:var(--text-muted);margin-bottom:0.9rem;font-style:italic;}
+textarea,input[type="text"],input[type="password"]{width:100%;border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;font-family:'Inter',sans-serif;font-size:14px;color:var(--text-primary);background:var(--bg-card2);resize:vertical;transition:border-color 0.2s,box-shadow 0.2s;line-height:1.6;}
+textarea::placeholder,input::placeholder{color:var(--text-muted);}
+textarea:focus,input[type="text"]:focus,input[type="password"]:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(107,47,217,0.2);}
+.face-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;margin-top:0.75rem;}
+.face-card{border:1.5px solid var(--border);border-radius:14px;padding:0.9rem 0.5rem;text-align:center;cursor:pointer;background:var(--bg-card2);transition:all 0.2s;position:relative;}
+.face-card:hover{border-color:var(--purple-light);transform:translateY(-3px);background:var(--purple-pale);}
+.face-card.selected{border-color:var(--purple);background:var(--purple-pale);}
+.face-card.selected::after{content:'✓';position:absolute;top:7px;right:9px;font-size:10px;color:var(--teal);font-weight:700;}
+.face-avatar{width:60px;height:60px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;background:var(--purple-pale);border:2px solid var(--purple-border);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.face-avatar img{width:100%;height:100%;object-fit:cover;}
+.face-name{font-size:11px;font-weight:600;color:var(--text-primary);line-height:1.3;}
+.empty-face-state{padding:2rem;text-align:center;color:var(--text-muted);font-size:13px;font-style:italic;grid-column:1/-1;}
+.nav{display:flex;gap:12px;justify-content:flex-end;margin-top:2rem;}
+.btn{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;cursor:pointer;transition:all 0.2s;letter-spacing:0.02em;border:none;display:inline-flex;align-items:center;gap:8px;}
+.btn-outline{background:transparent;color:var(--text-secondary);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--purple-light);color:var(--purple-light);}
+.btn-primary{background:var(--purple);color:white;}
+.btn-primary:hover{background:#7C3AED;transform:translateY(-1px);}
+.btn-primary:active{transform:translateY(0);}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none!important;}
+.btn-sm{padding:7px 14px;font-size:12px;border-radius:7px;border:1px solid var(--border);background:transparent;cursor:pointer;font-weight:600;color:var(--text-secondary);font-family:'Inter',sans-serif;transition:all 0.2s;}
+.btn-sm:hover{border-color:var(--purple-light);color:var(--purple-light);}
+.btn-teal{background:var(--teal-dim);border:1px solid rgba(0,229,204,0.3);color:var(--teal);font-size:13px;padding:9px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.btn-teal:hover{background:rgba(0,229,204,0.22);}
+.btn-danger-sm{border-color:rgba(248,113,113,0.3)!important;color:#F87171!important;}
+.btn-danger-sm:hover{background:rgba(248,113,113,0.1)!important;}
+.progress-bar{display:flex;gap:6px;justify-content:center;margin-bottom:1.5rem;}
+.prog-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all 0.3s;}
+.prog-dot.done{background:var(--purple-light);}
+.prog-dot.active{background:var(--teal);transform:scale(1.4);}
+.step-counter{font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:1.5rem;}
+.loading-state{text-align:center;padding:5rem 1rem;}
+.qs-spinner{width:64px;height:64px;margin:0 auto 2rem;animation:spin 1.8s linear infinite;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.loading-text{font-family:'Playfair Display',serif;font-size:20px;color:var(--white);font-style:italic;margin-bottom:0.6rem;}
+.loading-sub{font-size:13px;color:var(--text-muted);}
+.success-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:3rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.success-wave{position:absolute;bottom:0;right:0;width:160px;height:100px;background:var(--purple);border-radius:100% 0 20px 0;opacity:0.2;}
+.success-icon-wrap{width:72px;height:72px;border-radius:50%;background:var(--purple-pale);border:1px solid var(--purple-border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:22px;color:var(--teal);position:relative;z-index:1;}
+.success-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--white);margin-bottom:0.6rem;position:relative;z-index:1;}
+.success-sub{font-size:14px;color:var(--text-secondary);line-height:1.7;max-width:380px;margin:0 auto 2rem;position:relative;z-index:1;}
+.login-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:2.75rem;max-width:420px;margin:0 auto;position:relative;overflow:hidden;}
+.login-wave{position:absolute;bottom:0;right:0;width:140px;height:90px;background:var(--purple);border-radius:100% 0 20px 0;opacity:0.15;}
+.login-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--white);text-align:center;margin-bottom:0.4rem;position:relative;z-index:1;}
+.login-sub{font-size:13px;color:var(--text-secondary);text-align:center;margin-bottom:1.75rem;line-height:1.6;position:relative;z-index:1;}
+.login-field{margin-bottom:1.1rem;position:relative;z-index:1;}
+.login-field label{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:6px;}
+.error-msg{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#F87171;font-size:13px;padding:10px 14px;border-radius:8px;margin-bottom:1rem;display:none;position:relative;z-index:1;}
+.demo-hint{text-align:center;margin-top:0.75rem;font-size:11px;color:var(--text-muted);position:relative;z-index:1;}
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+.admin-topbar-title{font-size:16px;font-weight:600;color:var(--white);}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;}
+.stat-card{background:var(--purple-pale);border:1px solid var(--purple-border);border-radius:12px;padding:1.25rem;text-align:center;}
+.stat-num{font-size:32px;font-weight:700;color:var(--purple-light);}
+.stat-label{font-size:10px;color:var(--text-muted);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-top:4px;}
+.member-db-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin-bottom:1.25rem;overflow:hidden;}
+.member-db-header{display:flex;align-items:center;gap:14px;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);background:var(--purple-pale);}
+.member-db-avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;background:var(--bg-card2);border:2px solid var(--purple-border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.member-db-avatar img{width:100%;height:100%;object-fit:cover;}
+.member-db-info{flex:1;min-width:0;}
+.member-db-name{font-size:15px;font-weight:600;color:var(--white);}
+.member-db-count{font-size:12px;color:var(--text-muted);margin-top:2px;}
+.member-db-actions{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;}
+.submission-list{padding:1rem 1.5rem;}
+.submission-item{border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:0.75rem;background:var(--bg-card2);}
+.submission-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;}
+.submission-author{font-size:12px;font-weight:700;color:var(--teal);}
+.submission-date{font-size:11px;color:var(--text-muted);}
+.submission-preview{font-size:13px;color:var(--text-secondary);line-height:1.5;font-style:italic;}
+.submission-expand{font-size:12px;color:var(--purple-light);cursor:pointer;margin-top:6px;font-weight:600;}
+.submission-full{font-size:13px;color:var(--text-primary);line-height:1.6;margin-top:8px;border-top:1px solid var(--border);padding-top:8px;display:none;}
+.sub-field-label{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;display:block;}
+.empty-state{padding:2rem;text-align:center;color:var(--text-muted);font-size:13px;font-style:italic;}
+.published-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:#34D399;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.pending-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);color:#FBBF24;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.book-cover{background:var(--bg-card);border:1px solid var(--purple-border);border-radius:20px;padding:3rem 2.5rem;text-align:center;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+.book-cover-wave{position:absolute;bottom:0;right:0;width:220px;height:140px;background:var(--purple);border-radius:100% 0 20px 0;opacity:0.35;}
+.book-cover-circle{position:absolute;top:-40px;right:60px;width:110px;height:110px;border-radius:50%;background:var(--purple);opacity:0.18;}
+.cover-photo{width:90px;height:90px;border-radius:50%;margin:0 auto 1rem;border:3px solid var(--purple-light);overflow:hidden;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;font-size:32px;position:relative;z-index:1;}
+.cover-photo img{width:100%;height:100%;object-fit:cover;}
+.cover-badge{display:inline-block;background:var(--purple-pale);border:1px solid var(--purple-border);color:var(--purple-light);font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:0.75rem;position:relative;z-index:1;}
+.cover-title{font-family:'Playfair Display',serif;font-size:clamp(14px,2.5vw,20px);font-style:italic;color:var(--teal);line-height:1.3;margin-bottom:0.4rem;position:relative;z-index:1;}
+.cover-subtitle{font-size:11px;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;position:relative;z-index:1;}
+.cover-name{font-family:'Playfair Display',serif;font-size:24px;color:var(--white);margin:0.75rem 0 0.25rem;font-weight:600;position:relative;z-index:1;}
+.cover-date{font-size:12px;color:var(--text-muted);position:relative;z-index:1;}
+.cover-qs{margin-top:1.5rem;position:relative;z-index:1;opacity:0.7;font-size:14px;font-weight:700;color:var(--white);}
+.cover-qs span{color:var(--purple-light);font-weight:300;font-style:italic;}
+.story-page{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:2.25rem;margin-bottom:1rem;position:relative;}
+.page-number{position:absolute;top:1.25rem;right:1.5rem;font-size:11px;color:var(--text-muted);font-style:italic;font-family:'Playfair Display',serif;}
+.story-chapter{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);margin-bottom:0.75rem;}
+.story-body{font-size:15px;line-height:1.95;color:var(--text-primary);}
+.story-body p{margin-bottom:1em;}
+.story-body p:last-child{margin-bottom:0;}
+.story-ornament{text-align:center;margin:1.5rem 0 0;font-size:14px;color:var(--purple-light);letter-spacing:10px;opacity:0.5;}
+.admin-nav-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);cursor:pointer;background:none;border:none;padding:0;margin-bottom:1.5rem;font-family:'Inter',sans-serif;font-weight:500;}
+.admin-nav-btn:hover{color:var(--purple-light);}
+.book-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem;}
+.email-copy-box{background:var(--bg-card2);border:1px solid var(--purple-border);border-radius:12px;padding:1.25rem;margin-top:1.25rem;}
+.email-copy-label{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:0.6rem;}
+.email-copy-text{font-size:13px;color:var(--text-primary);line-height:1.75;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem;max-height:200px;overflow-y:auto;white-space:pre-wrap;font-family:'Inter',sans-serif;}
+.copy-btn-row{display:flex;gap:8px;margin-top:0.75rem;flex-wrap:wrap;align-items:center;}
+.copy-feedback{font-size:12px;color:var(--teal);font-weight:600;opacity:0;transition:opacity 0.3s;}
+.copy-feedback.show{opacity:1;}
+.admin-panel{background:var(--purple-pale);border:1px dashed var(--purple-border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;}
+.admin-panel-title{font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;}
+.members-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:1rem;}
+.member-admin-card{border:1px solid var(--border);border-radius:10px;padding:1rem;background:var(--bg-card);text-align:center;position:relative;}
+.photo-circle{width:56px;height:56px;border-radius:50%;background:var(--purple-pale);border:2px dashed var(--purple-border);display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;cursor:pointer;overflow:hidden;font-size:20px;position:relative;transition:border-color 0.2s;}
+.photo-circle:hover{border-color:var(--purple-light);}
+.photo-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.photo-circle input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.member-name-input{font-size:12px;text-align:center;padding:5px 8px;border-radius:6px;width:100%;margin-top:4px;background:var(--bg-card2);border:1px solid var(--border);color:var(--text-primary);}
+.upload-hint{font-size:10px;color:var(--text-muted);margin-top:3px;}
+.saving-indicator{font-size:10px;color:var(--teal);margin-top:3px;opacity:0;transition:opacity 0.3s;}
+.saving-indicator.show{opacity:1;}
+.remove-btn{position:absolute;top:5px;right:5px;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);}
+.add-member-row{display:flex;gap:8px;}
+.add-member-row input{flex:1;}
+.db-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 12px;border-radius:20px;font-weight:600;}
+.db-status.connected{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:#34D399;}
+.db-status.disconnected{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:#F87171;}
+.db-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="toast" id="toast"></div>
+
+<!-- WELCOME -->
+<div class="screen active" id="screen-welcome">
+  <div class="logo-bar">
+    <div class="qs-logo">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none"><circle cx="47" cy="47" r="34" stroke="#6B2FD9" stroke-width="11" fill="none"/><circle cx="47" cy="37" r="10" fill="#6B2FD9"/><path d="M23 63 Q47 80 71 63" stroke="#6B2FD9" stroke-width="11" fill="none" stroke-linecap="round"/><line x1="71" y1="71" x2="86" y2="86" stroke="#6B2FD9" stroke-width="10" stroke-linecap="round"/></svg>
+      <div class="qs-wordmark">Qulture<span>shift</span></div>
+    </div>
+    <button class="btn-sm" onclick="showScreen('screen-admin-login')">🔐 Admin</button>
+  </div>
+  <div class="hero">
+    <div class="hero-wave"></div><div class="hero-circle"></div>
+    <div class="hero-badge">✦ International HR Day 2026 ✦</div>
+    <h1>You <em>Empowered</em> Us<br>to Lead Change</h1>
+    <p class="hero-sub">Tap the faces of the HR team members you'd like to celebrate, share your stories, and we'll take care of the rest.</p>
+  </div>
+  <div class="q-card">
+    <div class="q-label">Who are we celebrating?</div>
+    <div class="q-text">Tap the faces of the HR team members you'd like to write about</div>
+    <div class="q-hint">Select all that apply — you'll share a story for each person selected.</div>
+    <div class="face-grid" id="face-grid"><div class="empty-face-state">Loading team members...</div></div>
+  </div>
+  <div class="q-card">
+    <div class="q-label">Your name</div>
+    <div class="q-text">Who is sharing these kind words?</div>
+    <input type="text" id="your-name" placeholder="Your name (optional — can be anonymous)"/>
+  </div>
+  <div class="nav"><button class="btn btn-primary" id="start-btn" onclick="startSurvey()" disabled>Begin Writing ✦</button></div>
+</div>
+
+<!-- SURVEY -->
+<div class="screen" id="screen-survey">
+  <div class="logo-bar">
+    <div class="qs-logo"><svg width="34" height="34" viewBox="0 0 100 100" fill="none"><circle cx="47" cy="47" r="34" stroke="#6B2FD9" stroke-width="11" fill="none"/><circle cx="47" cy="37" r="10" fill="#6B2FD9"/><path d="M23 63 Q47 80 71 63" stroke="#6B2FD9" stroke-width="11" fill="none" stroke-linecap="round"/><line x1="71" y1="71" x2="86" y2="86" stroke="#6B2FD9" stroke-width="10" stroke-linecap="round"/></svg><div class="qs-wordmark">Qulture<span>shift</span></div></div>
+  </div>
+  <div style="text-align:center;margin-bottom:2rem;">
+    <div id="survey-face" style="width:74px;height:74px;border-radius:50%;margin:0 auto 0.85rem;border:3px solid var(--purple);overflow:hidden;background:var(--purple-pale);display:flex;align-items:center;justify-content:center;font-size:26px;"></div>
+    <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--white);font-weight:600;" id="current-person-name">—</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-top:5px;" id="current-person-sub"></div>
+  </div>
+  <div class="progress-bar" id="progress-bar"></div>
+  <div class="step-counter" id="step-counter"></div>
+  <div class="q-card"><div class="q-label">Question 1 of 4</div><div class="q-text">What three words best describe this person's impact on your journey?</div><div class="q-hint">e.g. "Empowering, steadfast, visionary"</div><input type="text" id="q1" placeholder="Three words..."/></div>
+  <div class="q-card"><div class="q-label">Question 2 of 4</div><div class="q-text">Tell us a specific moment or memory with this person you'll never forget.</div><div class="q-hint">Paint the picture — the more detail, the richer the story.</div><textarea id="q2" rows="4" placeholder="There was this one time..."></textarea></div>
+  <div class="q-card"><div class="q-label">Question 3 of 4</div><div class="q-text">How has this person helped you grow — personally or professionally?</div><textarea id="q3" rows="4" placeholder="Because of them, I..."></textarea></div>
+  <div class="q-card"><div class="q-label">Question 4 of 4</div><div class="q-text">If you could say one heartfelt thing directly to this person today, what would it be?</div><textarea id="q4" rows="3" placeholder="What I truly want you to know is..."></textarea></div>
+  <div class="nav">
+    <button class="btn btn-outline" onclick="prevPerson()">← Back</button>
+    <button class="btn btn-primary" id="next-person-btn" onclick="nextPerson()">Next →</button>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="screen-loading">
+  <div class="loading-state">
+    <svg class="qs-spinner" width="64" height="64" viewBox="0 0 100 100" fill="none">
+      <circle cx="47" cy="47" r="34" stroke="rgba(107,47,217,0.2)" stroke-width="10" fill="none"/>
+      <path d="M47 13 A34 34 0 0 1 81 47" stroke="#6B2FD9" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <circle cx="47" cy="37" r="9" fill="#6B2FD9" opacity="0.5"/>
+      <line x1="71" y1="71" x2="84" y2="84" stroke="#6B2FD9" stroke-width="9" stroke-linecap="round" opacity="0.5"/>
+    </svg>
+    <div class="loading-text" id="loading-text">Weaving your words into stories...</div>
+    <div class="loading-sub" id="loading-sub">Crafting something beautiful — this may take a moment.</div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="screen" id="screen-success">
+  <div class="logo-bar"><div class="qs-logo"><svg width="34" height="34" viewBox="0 0 100 100" fill="none"><circle cx="47" cy="47" r="34" stroke="#6B2FD9" stroke-width="11" fill="none"/><circle cx="47" cy="37" r="10" fill="#6B2FD9"/><path d="M23 63 Q47 80 71 63" stroke="#6B2FD9" stroke-width="11" fill="none" stroke-linecap="round"/><line x1="71" y1="71" x2="86" y2="86" stroke="#6B2FD9" stroke-width="10" stroke-linecap="round"/></svg><div class="qs-wordmark">Qulture<span>shift</span></div></div></div>
+  <div class="success-card">
+    <div class="success-wave"></div>
+    <div class="success-icon-wrap">✦</div>
+    <div class="success-title">Your stories have been saved!</div>
+    <div class="success-sub">Thank you for celebrating your HR team. Your heartfelt words are safely stored and will be compiled by the admin into a beautiful storybook for each person.</div>
+    <button class="btn btn-primary" onclick="resetPublic()" style="position:relative;z-index:1;">Submit another response</button>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div class="screen" id="screen-admin-login">
+  <div class="logo-bar" style="justify-content:center;"><div class="qs-logo"><svg width="34" height="34" viewBox="0 0 100 100" fill="none"><circle cx="47" cy="47" r="34" stroke="#6B2FD9" stroke-width="11" fill="none"/><circle cx="47" cy="37" r="10" fill="#6B2FD9"/><path d="M23 63 Q47 80 71 63" stroke="#6B2FD9" stroke-width="11" fill="none" stroke-linecap="round"/><line x1="71" y1="71" x2="86" y2="86" stroke="#6B2FD9" stroke-width="10" stroke-linecap="round"/></svg><div class="qs-wordmark">Qulture<span>shift</span></div></div></div>
+  <div class="login-card">
+    <div class="login-wave"></div>
+    <div class="login-title">Admin Access</div>
+    <div class="login-sub">Sign in to manage submissions and publish storybooks to your HR team</div>
+    <div class="error-msg" id="login-error">Incorrect password. Please try again.</div>
+    <div class="login-field"><label>Password</label><input type="password" id="admin-password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()"/></div>
+    <button class="btn btn-primary" style="width:100%;position:relative;z-index:1;justify-content:center;" onclick="adminLogin()">Sign In</button>
+    <div style="text-align:center;margin-top:1rem;position:relative;z-index:1;"><button class="admin-nav-btn" onclick="showScreen('screen-welcome')">← Back to survey</button></div>
+    <div class="demo-hint">Password: <strong style="color:var(--purple-light);">hrday2026</strong></div>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div class="screen" id="screen-admin">
+  <div class="logo-bar">
+    <div class="qs-logo"><svg width="34" height="34" viewBox="0 0 100 100" fill="none"><circle cx="47" cy="47" r="34" stroke="#6B2FD9" stroke-width="11" fill="none"/><circle cx="47" cy="37" r="10" fill="#6B2FD9"/><path d="M23 63 Q47 80 71 63" stroke="#6B2FD9" stroke-width="11" fill="none" stroke-linecap="round"/><line x1="71" y1="71" x2="86" y2="86" stroke="#6B2FD9" stroke-width="10" stroke-linecap="round"/></svg><div class="qs-wordmark">Qulture<span>shift</span></div></div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="db-status connected" id="db-status-badge"><span class="db-dot"></span>Live DB</div>
+      <button class="btn-sm" onclick="showAdminSetup()">⚙ Team Setup</button>
+      <button class="btn-sm" onclick="refreshDashboard()">↺ Refresh</button>
+      <button class="btn-sm btn-danger-sm" onclick="adminLogout()">Sign Out</button>
+    </div>
+  </div>
+  <div class="admin-topbar"><div class="admin-topbar-title">Storybook Dashboard</div></div>
+  <div class="stat-row" id="stat-row"></div>
+  <div id="admin-setup-panel" style="display:none;">
+    <div class="admin-panel">
+      <div class="admin-panel-title">⚙ HR Team Setup — changes save instantly to the database</div>
+      <div class="members-admin-grid" id="members-admin-grid"></div>
+      <div class="add-member-row"><input type="text" id="new-member-input" placeholder="Add a team member name..."/><button class="btn-sm" onclick="addMember()">+ Add</button></div>
+    </div>
+  </div>
+  <div id="member-cards-container"></div>
+</div>
+
+<!-- ADMIN STORYBOOK -->
+<div class="screen" id="screen-admin-book">
+  <div class="logo-bar"><div class="qs-logo"><svg width="34" height="34" viewBox="0 0 100 100" fill="none"><circle cx="47" cy="47" r="34" stroke="#6B2FD9" stroke-width="11" fill="none"/><circle cx="47" cy="37" r="10" fill="#6B2FD9"/><path d="M23 63 Q47 80 71 63" stroke="#6B2FD9" stroke-width="11" fill="none" stroke-linecap="round"/><line x1="71" y1="71" x2="86" y2="86" stroke="#6B2FD9" stroke-width="10" stroke-linecap="round"/></svg><div class="qs-wordmark">Qulture<span>shift</span></div></div></div>
+  <button class="admin-nav-btn" onclick="showScreen('screen-admin')">← Back to dashboard</button>
+  <div id="admin-book-content"></div>
+  <div class="email-copy-box" id="email-copy-box" style="display:none;">
+    <div class="email-copy-label">Email-ready copy</div>
+    <div class="email-copy-text" id="email-copy-text"></div>
+    <div class="copy-btn-row">
+      <button class="btn-teal" onclick="copyEmailText()">Copy to clipboard</button>
+      <span class="copy-feedback" id="copy-feedback">✓ Copied!</span>
+    </div>
+  </div>
+  <div class="book-actions">
+    <button class="btn btn-primary" id="publish-btn" onclick="publishBook()">✦ Publish to HR Member</button>
+    <button class="btn btn-outline" onclick="printCurrentBook()">⬇ Download PDF</button>
+    <button class="btn btn-outline" onclick="toggleEmailCopy()" id="email-copy-btn">✉ Email-ready copy</button>
+  </div>
+</div>
+
+</div>
+<script>
+const SUPABASE_URL='https://bxhiniriwcbztkeneldh.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4aGluaXJpd2NienRrZW5lbGRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMTExNDMsImV4cCI6MjA5NDc4NzE0M30.RL86E1b87m157xNV8bbE4UwvhZX9wiG0Z-skp1sC_KE';
+const ADMIN_PASS='hrday2026';
+const API=`${SUPABASE_URL}/rest/v1`;
+const H={'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,'Prefer':'return=representation'};
+
+let teamMembers=[],selectedMembers=[],responses={},currentIndex=0,currentAdminMember=null;
+
+// ── SUPABASE ──────────────────────────────────────────────
+async function fetchTeamMembers(){const r=await fetch(`${API}/team_members?order=sort_order.asc,created_at.asc`,{headers:H});if(!r.ok)throw new Error(await r.text());return r.json();}
+async function insertTeamMember(name,sortOrder){const r=await fetch(`${API}/team_members`,{method:'POST',headers:H,body:JSON.stringify({name,sort_order:sortOrder})});if(!r.ok)throw new Error(await r.text());return r.json();}
+async function updateTeamMember(id,data){const r=await fetch(`${API}/team_members?id=eq.${id}`,{method:'PATCH',headers:H,body:JSON.stringify(data)});if(!r.ok)throw new Error(await r.text());return r.json();}
+async function deleteTeamMember(id){const r=await fetch(`${API}/team_members?id=eq.${id}`,{method:'DELETE',headers:H});if(!r.ok)throw new Error(await r.text());}
+async function dbInsert(data){const r=await fetch(`${API}/submissions`,{method:'POST',headers:H,body:JSON.stringify(data)});if(!r.ok)throw new Error(await r.text());return r.json();}
+async function dbFetchAll(){const r=await fetch(`${API}/submissions?order=created_at.asc`,{headers:H});if(!r.ok)throw new Error(await r.text());return r.json();}
+async function dbPublish(id,published){const r=await fetch(`${API}/submissions?id=eq.${id}`,{method:'PATCH',headers:H,body:JSON.stringify({published})});if(!r.ok)throw new Error(await r.text());return r.json();}
+
+// ── STORY GENERATION via Netlify function ─────────────────
+async function generateStory(name,author,r){
+  const res=await fetch('/.netlify/functions/generate',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,author,responses:r})
+  });
+  if(!res.ok)throw new Error(await res.text());
+  const data=await res.json();
+  return data.story||`<p>A story of gratitude for ${name}.</p>`;
+}
+
+// ── UI ────────────────────────────────────────────────────
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),3000);}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function avatarEmoji(name){const e=['🌸','🌟','🌿','🦋','🌺','🌼','🍀','⭐','🌙','🎋'];let h=0;for(let c of name)h=(h*31+c.charCodeAt(0))&0xffffff;return e[h%e.length];}
+function getMember(name){return teamMembers.find(m=>m.name===name);}
+
+function initFaceGrid(){
+  const grid=document.getElementById('face-grid');
+  if(!teamMembers.length){grid.innerHTML='<div class="empty-face-state">No team members set up yet. Ask your admin to add the HR team.</div>';return;}
+  grid.innerHTML='';
+  teamMembers.forEach((m,i)=>{
+    const card=document.createElement('div');card.className='face-card';card.id=`fc-${i}`;
+    card.onclick=()=>toggleFace(i,card);
+    card.innerHTML=`<div class="face-avatar">${m.photo?`<img src="${m.photo}" alt="${m.name}"/>`:`<span>${avatarEmoji(m.name)}</span>`}</div><div class="face-name">${m.name}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+function toggleFace(idx,card){
+  const name=teamMembers[idx].name;
+  if(card.classList.contains('selected')){card.classList.remove('selected');selectedMembers=selectedMembers.filter(n=>n!==name);}
+  else{card.classList.add('selected');selectedMembers.push(name);}
+  document.getElementById('start-btn').disabled=selectedMembers.length===0;
+}
+
+// ── SURVEY ────────────────────────────────────────────────
+function startSurvey(){currentIndex=0;responses={};showScreen('screen-survey');loadPerson(0);}
+function loadPerson(idx){
+  const name=selectedMembers[idx];const member=getMember(name);
+  document.getElementById('current-person-name').textContent=name;
+  document.getElementById('current-person-sub').textContent=`Share what ${name.split(' ')[0]} means to you`;
+  const fEl=document.getElementById('survey-face');
+  fEl.innerHTML=member?.photo?`<img src="${member.photo}" style="width:100%;height:100%;object-fit:cover;"/>`:`<span style="font-size:26px;">${avatarEmoji(name)}</span>`;
+  const saved=responses[name]||{};['q1','q2','q3','q4'].forEach(q=>document.getElementById(q).value=saved[q]||'');
+  document.getElementById('next-person-btn').textContent=idx===selectedMembers.length-1?'Submit Stories ✦':'Next Person →';
+  const bar=document.getElementById('progress-bar');
+  bar.innerHTML=selectedMembers.map((_,i)=>`<div class="prog-dot ${i<idx?'done':i===idx?'active':''}"></div>`).join('');
+  document.getElementById('step-counter').textContent=`Person ${idx+1} of ${selectedMembers.length}`;
+}
+function saveCurrentResponses(){const name=selectedMembers[currentIndex];responses[name]={q1:document.getElementById('q1').value,q2:document.getElementById('q2').value,q3:document.getElementById('q3').value,q4:document.getElementById('q4').value};}
+function nextPerson(){saveCurrentResponses();if(currentIndex<selectedMembers.length-1){currentIndex++;loadPerson(currentIndex);}else generateAndStore();}
+function prevPerson(){saveCurrentResponses();if(currentIndex>0){currentIndex--;loadPerson(currentIndex);}else showScreen('screen-welcome');}
+
+async function generateAndStore(){
+  showScreen('screen-loading');
+  const author=document.getElementById('your-name').value.trim()||'Anonymous';
+  const msgs=[['Weaving your words into stories...','Crafting something beautiful — this may take a moment.'],['Turning memories into chapters...','Almost there — your kindness is being saved.'],['Saving to the storybook vault...','Your stories are being stored securely.']];
+  let mi=0;const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('loading-text').textContent=msgs[mi][0];document.getElementById('loading-sub').textContent=msgs[mi][1];},2500);
+  try{
+    for(const name of selectedMembers){
+      const r=responses[name]||{};
+      const story=await generateStory(name,author,r);
+      await dbInsert({hr_member_name:name,author,responses:r,story,published:false});
+    }
+    clearInterval(iv);showScreen('screen-success');
+  }catch(e){clearInterval(iv);console.error(e);showToast('Error saving — please try again.','error');showScreen('screen-survey');}
+}
+
+function resetPublic(){selectedMembers=[];responses={};currentIndex=0;document.querySelectorAll('.face-card').forEach(c=>c.classList.remove('selected'));document.getElementById('start-btn').disabled=true;document.getElementById('your-name').value='';showScreen('screen-welcome');}
+
+// ── ADMIN ─────────────────────────────────────────────────
+function adminLogin(){if(document.getElementById('admin-password').value===ADMIN_PASS){document.getElementById('login-error').style.display='none';showScreen('screen-admin');renderDashboard();}else{document.getElementById('login-error').style.display='block';}}
+function adminLogout(){document.getElementById('admin-password').value='';showScreen('screen-welcome');}
+function showAdminSetup(){const p=document.getElementById('admin-setup-panel');p.style.display=p.style.display==='none'?'block':'none';if(p.style.display==='block')initAdminGrid();}
+async function refreshDashboard(){showToast('Refreshing...');teamMembers=await fetchTeamMembers();initFaceGrid();await renderDashboard();showToast('Updated ✓','success');}
+
+function initAdminGrid(){
+  const grid=document.getElementById('members-admin-grid');grid.innerHTML='';
+  teamMembers.forEach((m,i)=>{
+    const card=document.createElement('div');card.className='member-admin-card';
+    card.innerHTML=`<div class="photo-circle" title="Click to upload photo">${m.photo?`<img src="${m.photo}" alt="${m.name}"/>`:`<span>${avatarEmoji(m.name)}</span>`}<input type="file" accept="image/*" onchange="uploadPhoto('${m.id}',${i},this)"/></div><div class="upload-hint" id="hint-${m.id}">${m.photo?'✓ Photo saved':'Click to upload'}</div><input type="text" class="member-name-input" value="${m.name}" onchange="renameMember('${m.id}',${i},this.value)" placeholder="Name..."/><div class="saving-indicator" id="saving-${m.id}">✓ Saved</div><button class="remove-btn" onclick="removeMember('${m.id}',${i})">✕</button>`;
+    grid.appendChild(card);
+  });
+}
+
+async function uploadPhoto(id,idx,input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    const img=new Image();
+    img.onload=async()=>{
+      const canvas=document.createElement('canvas');const max=300;
+      let w=img.width,h=img.height;
+      if(w>h){if(w>max){h=h*max/w;w=max;}}else{if(h>max){w=w*max/h;h=max;}}
+      canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const photo=canvas.toDataURL('image/jpeg',0.8);
+      try{await updateTeamMember(id,{photo});teamMembers[idx].photo=photo;showSaved(id);initAdminGrid();initFaceGrid();showToast('Photo saved ✓','success');}
+      catch(e){showToast('Could not save photo','error');}
+    };img.src=e.target.result;
+  };reader.readAsDataURL(file);
+}
+
+let renameTimers={};
+function renameMember(id,idx,name){
+  teamMembers[idx].name=name;clearTimeout(renameTimers[id]);
+  renameTimers[id]=setTimeout(async()=>{
+    try{await updateTeamMember(id,{name});showSaved(id);initFaceGrid();showToast('Name updated ✓','success');}
+    catch(e){showToast('Could not save name','error');}
+  },800);
+}
+
+async function removeMember(id,idx){
+  try{await deleteTeamMember(id);teamMembers.splice(idx,1);initAdminGrid();initFaceGrid();renderDashboard();showToast('Member removed','');}
+  catch(e){showToast('Could not remove member','error');}
+}
+
+async function addMember(){
+  const input=document.getElementById('new-member-input');const name=input.value.trim();if(!name)return;
+  try{const result=await insertTeamMember(name,teamMembers.length);teamMembers.push(result[0]||{name,photo:null,id:Date.now()});input.value='';initAdminGrid();initFaceGrid();renderDashboard();showToast(`${name} added ✓`,'success');}
+  catch(e){showToast('Could not add member','error');}
+}
+
+function showSaved(id){const el=document.getElementById(`saving-${id}`);if(!el)return;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2000);}
+
+async function renderDashboard(){
+  let allSubs=[];
+  try{
+    teamMembers=await fetchTeamMembers();
+    allSubs=await dbFetchAll();
+    document.getElementById('db-status-badge').className='db-status connected';
+    document.getElementById('db-status-badge').innerHTML='<span class="db-dot"></span>Live DB';
+  }catch(e){
+    document.getElementById('db-status-badge').className='db-status disconnected';
+    document.getElementById('db-status-badge').innerHTML='<span class="db-dot"></span>DB Error';
+    showToast('Could not reach database','error');return;
+  }
+  const grouped={};teamMembers.forEach(m=>{grouped[m.name]=[];});
+  allSubs.forEach(s=>{if(!grouped[s.hr_member_name])grouped[s.hr_member_name]=[];grouped[s.hr_member_name].push(s);});
+  const uniquePublished=new Set(allSubs.filter(s=>s.published).map(s=>s.hr_member_name)).size;
+  document.getElementById('stat-row').innerHTML=`<div class="stat-card"><div class="stat-num">${teamMembers.length}</div><div class="stat-label">HR Members</div></div><div class="stat-card"><div class="stat-num">${allSubs.length}</div><div class="stat-label">Submissions</div></div><div class="stat-card"><div class="stat-num">${uniquePublished}</div><div class="stat-label">Published</div></div>`;
+  const container=document.getElementById('member-cards-container');container.innerHTML='';
+  teamMembers.forEach(m=>{
+    const subs=grouped[m.name]||[];const count=subs.length;const isPublished=subs.some(s=>s.published);
+    const card=document.createElement('div');card.className='member-db-card';
+    card.innerHTML=`<div class="member-db-header"><div class="member-db-avatar">${m.photo?`<img src="${m.photo}" alt="${m.name}"/>`:`<span>${avatarEmoji(m.name)}</span>`}</div><div class="member-db-info"><div class="member-db-name">${m.name}</div><div class="member-db-count">${count} submission${count!==1?'s':''} received</div><div style="margin-top:5px;">${isPublished?'<span class="published-badge">✓ Published</span>':'<span class="pending-badge">⏳ Pending</span>'}</div></div><div class="member-db-actions">${count>0?`<button class="btn-sm" onclick="viewMemberStorybook('${m.name}')">View Storybook</button>`:''}${isPublished?`<button class="btn-sm btn-danger-sm" onclick="unpublishAll('${m.name}')">Unpublish</button>`:''}</div></div><div class="submission-list">${count===0?'<div class="empty-state">No submissions yet — waiting for the team to share their stories.</div>':subs.map((s,si)=>`<div class="submission-item"><div class="submission-meta"><span class="submission-author">✦ ${s.author}</span><span class="submission-date">${new Date(s.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span></div><div class="submission-preview">"${(s.responses?.q2||'').slice(0,90)}${(s.responses?.q2||'').length>90?'...':''}"</div><div class="submission-expand" onclick="toggleExpand(this)">Read full submission ▾</div><div class="submission-full"><span class="sub-field-label">Three words</span><p>${s.responses?.q1||'—'}</p><span class="sub-field-label">Memory</span><p>${s.responses?.q2||'—'}</p><span class="sub-field-label">How they helped me grow</span><p>${s.responses?.q3||'—'}</p><span class="sub-field-label">Heartfelt message</span><p>${s.responses?.q4||'—'}</p></div></div>`).join('')}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function toggleExpand(el){const full=el.nextElementSibling;const isOpen=full.style.display==='block';full.style.display=isOpen?'none':'block';el.textContent=isOpen?'Read full submission ▾':'Hide ▴';}
+
+async function viewMemberStorybook(name){
+  currentAdminMember=name;let subs=[];
+  try{const all=await dbFetchAll();subs=all.filter(s=>s.hr_member_name===name);}catch(e){showToast('Could not load submissions','error');return;}
+  if(!subs.length)return;
+  const member=getMember(name);
+  const photoEl=member?.photo?`<img src="${member.photo}" alt="${name}"/>`:`<span style="font-size:32px;">${avatarEmoji(name)}</span>`;
+  const stories=subs.map((s,i)=>`<div class="story-page"><div class="page-number">story ${i+1}</div><div class="story-chapter">From ${s.author} · ${new Date(s.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</div><div class="story-body">${s.story}</div><div class="story-ornament">✦ ✦ ✦</div></div>`).join('');
+  document.getElementById('admin-book-content').innerHTML=`<div class="book-cover"><div class="book-cover-wave"></div><div class="book-cover-circle"></div><div class="cover-photo">${photoEl}</div><div class="cover-badge">International HR Day</div><div class="cover-title">"You Empowered Us to Lead Change"</div><div class="cover-subtitle">A storybook for</div><div class="cover-name">${name}</div><div class="cover-date">${new Date().getFullYear()} · Qultureshift</div><div class="cover-qs">Qulture<span>shift</span></div></div>${stories}`;
+  buildEmailCopy(name,subs);
+  document.getElementById('email-copy-box').style.display='none';
+  document.getElementById('email-copy-btn').textContent='✉ Email-ready copy';
+  const isPublished=subs.some(s=>s.published);
+  const pubBtn=document.getElementById('publish-btn');
+  pubBtn.textContent=isPublished?'✦ Already Published':'✦ Publish to HR Member';
+  pubBtn.disabled=isPublished;
+  showScreen('screen-admin-book');
+}
+
+async function publishBook(){
+  if(!currentAdminMember)return;
+  try{const all=await dbFetchAll();const subs=all.filter(s=>s.hr_member_name===currentAdminMember);await Promise.all(subs.map(s=>dbPublish(s.id,true)));document.getElementById('publish-btn').textContent='✦ Published!';document.getElementById('publish-btn').disabled=true;showToast(`${currentAdminMember.split(' ')[0]}'s storybook published! ✓`,'success');}
+  catch(e){showToast('Could not publish — try again','error');}
+}
+
+async function unpublishAll(name){
+  try{const all=await dbFetchAll();const subs=all.filter(s=>s.hr_member_name===name);await Promise.all(subs.map(s=>dbPublish(s.id,false)));showToast(`${name.split(' ')[0]} unpublished`,'');await renderDashboard();}
+  catch(e){showToast('Could not unpublish','error');}
+}
+
+function buildEmailCopy(name,subs){
+  const fn=name.split(' ')[0];
+  const storiesText=subs.map(s=>{const plain=s.story.replace(/<p>/g,'\n').replace(/<\/p>/g,'').replace(/<[^>]+>/g,'').trim();return `— From ${s.author} (${new Date(s.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}) —\n\n${plain}`;}).join('\n\n────────────────\n\n');
+  document.getElementById('email-copy-text').textContent=`Subject: Happy International HR Day, ${fn}! 🌟 Your Storybook\n\nDear ${fn},\n\nOn this International HR Day, your team has something very special for you.\n\nWe asked your colleagues to share their most treasured memories and the ways you've shaped their journeys. What came back was extraordinary — stories of growth, moments of kindness, and words that speak to the incredible impact you have every single day.\n\nBelow is your personal storybook: "You Empowered Us to Lead Change"\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n${storiesText}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\nThank you for everything you do, ${fn}. Today, we celebrate you.\n\nWith gratitude,\nThe Team at Qultureshift`;
+}
+
+function toggleEmailCopy(){const box=document.getElementById('email-copy-box');const btn=document.getElementById('email-copy-btn');const isVisible=box.style.display!=='none';box.style.display=isVisible?'none':'block';btn.textContent=isVisible?'✉ Email-ready copy':'✕ Hide email copy';if(!isVisible)box.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function copyEmailText(){const text=document.getElementById('email-copy-text').textContent;const fb=document.getElementById('copy-feedback');navigator.clipboard.writeText(text).then(()=>{fb.classList.add('show');setTimeout(()=>fb.classList.remove('show'),2500);}).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);fb.classList.add('show');setTimeout(()=>fb.classList.remove('show'),2500);});}
+
+function printCurrentBook(){
+  const el=document.getElementById('admin-book-content');if(!el)return;
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>${currentAdminMember} — Storybook</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');body{font-family:'Inter',sans-serif;background:#0D0D1A;color:#F0EEFF;max-width:640px;margin:2rem auto;padding:2rem;}.book-cover{background:#141428;border:1px solid rgba(107,47,217,0.35);border-radius:20px;padding:2.5rem 2rem;text-align:center;margin-bottom:1.5rem;position:relative;overflow:hidden;}.book-cover-wave{position:absolute;bottom:0;right:0;width:180px;height:110px;background:#6B2FD9;border-radius:100% 0 20px 0;opacity:0.3;}.book-cover-circle{position:absolute;top:-40px;right:60px;width:100px;height:100px;border-radius:50%;background:#6B2FD9;opacity:0.18;}.cover-photo{width:88px;height:88px;border-radius:50%;margin:0 auto 1rem;border:3px solid #8B5CF6;overflow:hidden;background:rgba(107,47,217,0.15);display:flex;align-items:center;justify-content:center;font-size:32px;position:relative;z-index:1;}.cover-photo img{width:100%;height:100%;object-fit:cover;}.cover-badge{display:inline-block;background:rgba(107,47,217,0.15);border:1px solid rgba(107,47,217,0.4);color:#8B5CF6;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:0.75rem;position:relative;z-index:1;}.cover-title{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:#00E5CC;line-height:1.3;margin-bottom:0.4rem;position:relative;z-index:1;}.cover-subtitle{font-size:11px;color:#6B7280;letter-spacing:0.1em;text-transform:uppercase;position:relative;z-index:1;}.cover-name{font-family:'Playfair Display',serif;font-size:24px;color:white;margin:0.75rem 0 0.25rem;font-weight:600;position:relative;z-index:1;}.cover-date,.cover-qs{font-size:12px;color:rgba(255,255,255,0.6);position:relative;z-index:1;margin-top:0.4rem;}.cover-qs span{color:#8B5CF6;font-weight:300;font-style:italic;}.story-page{background:#141428;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:2rem;margin-bottom:1rem;position:relative;page-break-inside:avoid;}.page-number{position:absolute;top:1rem;right:1.25rem;font-size:11px;color:#374151;font-style:italic;font-family:'Playfair Display',serif;}.story-chapter{font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#00E5CC;margin-bottom:0.75rem;}.story-body{font-size:15px;line-height:1.9;color:#F0EEFF;}.story-body p{margin-bottom:1em;}.story-ornament{text-align:center;margin:1.5rem 0 0;font-size:14px;color:#8B5CF6;letter-spacing:10px;opacity:0.5;}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}</style></head><body>${el.innerHTML}</body></html>`);
+  win.document.close();setTimeout(()=>{win.print();},800);
+}
+
+// ── BOOT ──────────────────────────────────────────────────
+(async()=>{
+  try{teamMembers=await fetchTeamMembers();}catch(e){console.warn('Could not load team members:',e);}
+  initFaceGrid();
+})();
+</script>
+</body>
+</html>
